@@ -19,12 +19,9 @@ class Odnoklassniki extends AbstractAdapter
      */
     public function __construct($config)
     {
-        if (!is_array($config))
-            throw new Exception\InvalidArgumentException(
-                __METHOD__ . ' expects an array with keys: `client_id`, `client_secret`, `redirect_uri`, `public_key`'
-            );
+	    parent::__construct($config);
 
-        foreach (array('client_id', 'client_secret', 'redirect_uri', 'public_key') as $param) {
+        foreach (array('public_key') as $param) {
             if (!array_key_exists($param, $config)) {
                 throw new Exception\InvalidArgumentException(
                     __METHOD__ . ' expects an array with key: `' . $param . '`'
