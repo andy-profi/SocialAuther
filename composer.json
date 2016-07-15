@@ -1,5 +1,6 @@
 {
   "name": "rusranx/social-auther",
+  "type": "library",
   "description": "Social auther",
   "license": "GPL-3.0+",
   "authors": [
