@@ -8,6 +8,8 @@
 
 namespace SocialAuther\Adapter;
 
+use RusranUtils\Curl;
+
 abstract class AbstractAdapter implements AdapterInterface
 {
     /**
@@ -57,7 +59,14 @@ abstract class AbstractAdapter implements AdapterInterface
      *
      * @var string
      */
-    protected $responseType = 'code';
+	protected $responseType = 'code';
+	
+	/**
+	 * Instance curl.
+	 *
+	 * @var Resource
+	 */
+	protected $ch;
 
     /**
      * Constructor
@@ -67,7 +76,8 @@ abstract class AbstractAdapter implements AdapterInterface
      */
     public function __construct($config)
     {
-        if (!is_array($config))
+
+	    if (!is_array($config))
             throw new Exception\InvalidArgumentException(
                 __METHOD__ . ' expects an array with keys: `client_id`, `client_secret`, `redirect_uri`'
             );
@@ -82,6 +92,8 @@ abstract class AbstractAdapter implements AdapterInterface
                 $this->$property = $config[$param];
             }
         }
+	    
+	    $this->ch = new Curl();
     }
 
     /**
@@ -237,14 +249,7 @@ abstract class AbstractAdapter implements AdapterInterface
      */
     protected function post($url, $params, $parse = true)
     {
-        $curl = curl_init();
-        curl_setopt($curl, CURLOPT_URL, $url);
-        curl_setopt($curl, CURLOPT_POST, 1);
-        curl_setopt($curl, CURLOPT_POSTFIELDS, urldecode(http_build_query($params)));
-        curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
-        curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, false);
-        $result = curl_exec($curl);
-        curl_close($curl);
+        $result = $this->ch->post($url, urldecode(http_build_query($params)));
 
         if ($parse) {
             $result = json_decode($result, true);
@@ -263,12 +268,7 @@ abstract class AbstractAdapter implements AdapterInterface
      */
     protected function get($url, $params, $parse = true)
     {
-        $curl = curl_init();
-        curl_setopt($curl, CURLOPT_URL, $url . '?' . urldecode(http_build_query($params)));
-        curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
-        curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, false);
-        $result = curl_exec($curl);
-        curl_close($curl);
+	    $result = $this->ch->get($url, urldecode(http_build_query($params)));
 
         if ($parse) {
             $result = json_decode($result, true);
