@@ -1,11 +1,23 @@
 {
-	"name": "alukos/social-auther",
-	"description": "Social auther on our site",
+	"name": "rusranx/social-auther",
+	"description": "Social auther",
 	"license": "GPL-3.0+",
 	"authors": [
 		{
+			"name": "Stanislav Protasevich",
+			"email": "stanislav.protasevich@stanislasgroup.com",
+			"url": "http://stanislasgroup.com/"
+		},
+		{
+			"name": "Vladlen Grachev"
+		},
+		{
 			"name": "Alexander Kostushin",
 			"email": "alukos@yandex.ru"
+		},
+		{
+			"name": "Yuri Ashurkov",
+			"email": "admin@rusran.ru"
 		}
 	],
 	"autoload": {
