@@ -268,7 +268,7 @@ abstract class AbstractAdapter implements AdapterInterface
      */
     protected function get($url, $params, $parse = true)
     {
-	    $result = $this->ch->get($url, urldecode(http_build_query($params)));
+	    $result = $this->ch->get($url . '?' . urldecode(http_build_query($params)));
 
         if ($parse) {
             $result = json_decode($result, true);
